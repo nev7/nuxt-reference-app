@@ -1,31 +1,25 @@
 <template>
-<v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-        <div class="text-xs-center">
-            <logo />
-            <vuetify-logo />
-        </div>
-        <v-card>
-            <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
-            <v-card-text>
-                <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-                <hr class="my-3">
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer />
-                <v-btn color="info" flat nuxt to="/inspire">Continue</v-btn>
-            </v-card-actions>
-        </v-card>
+<v-layout>
+    <v-flex text-xs-center>
+        <h1>Welcome to the medical reference app!</h1>
+        <p>To start usingthe app please login or register if you dont have an account.</p>
+        <v-btn color="info" nuxt to="/access/login">Get Started</v-btn>
+        <v-list v-show="loggedIn">Visible</v-list>
     </v-flex>
 </v-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import { mapState } from 'vuex';
 
 export default {
-    components: {
-        Logo,
+    layout: 'plainLayout',
+    name: 'welcome',
+    computed: {
+        ...mapState(["loggedIn"])
     }
 }
 </script>
+
+<style>
+</style>
