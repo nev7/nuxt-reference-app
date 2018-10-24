@@ -1,97 +1,73 @@
 <template>
 <v-layout column justify-center align-center>
-    <form>
+    <v-form>
         <h2 :text="title"></h2>
-        <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-        <v-text-field v-model="password" :error-messages="passwordErrors" :counter="15" label="Password" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
-        <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="I accept the terms and conditions." required @change="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()"></v-checkbox>
-        <!-- <v-btn @click="clear">clear</v-btn> -->
-        <FormButton :clickFunc="clickFuncOne" :btnVisible="showBtnOne" :btnDisabled="formErrors" :btnText="buttonText" :btnName="buttonName" :link="linkTo" />
+        <v-text-field v-model="user.email" label="E-mail" type="text" name="email" placeholder="e.g janedoe@xxxxx.com" :error-messages="errors.collect('email')" v-validate="'required|email'">
+        </v-text-field>
+        <v-text-field v-model="user.password" :counter="15" label="Password" name="password" :append-icon="showPass ? 'visibility_off' : 'visibility'" :error-messages="errors.collect('password')" v-validate="'required|max:15|min:8'" :type="showPass ? 'text' : 'password'" @click:append="showPass = !showPass">
+        </v-text-field>
+        <v-checkbox name="checkbox" type="checkbox" v-validate="'required'" :error-messages="errors.collect('checkbox')" :checked="user.terms" @change="checkboxVal" label="I accept the terms and conditions.">
+        </v-checkbox>
+        <FormButton :clickFunc="login" :btnVisible="showBtnOne" :btnText="buttonText" :btnName="buttonName" />
         <span>OR</span>
-        <FormButton :clickFunc="clickFuncTwo" :btnVisible="showBtnTwo" :btnText="buttonTextTwo" :btnName="buttonNameTwo" :link="linkToTwo" />
-    </form>
+        <FormButton :clickFunc="register" :btnVisible="showBtnTwo" :btnText="buttonTextTwo" :btnName="buttonNameTwo" />
+    </v-form>
 </v-layout>
 </template>
 
 <script>
-import FormButton from '~/components/FormButton.vue'
-import { validationMixin } from 'vuelidate'
-import { required, maxLength, minLength, email } from 'vuelidate/lib/validators'
+import FormButton from '~/components/FormButton.vue';
+import VeeValidate from 'vee-validate';
+import Vue from 'vue';
+import { mapState } from 'vuex';
+
+Vue.use(VeeValidate)
 
 export default {
-  components: {
-    FormButton
-  },
-  name: 'LoginRegisterForm',
-  mixins: [validationMixin],
-  props: {
-    title: String,
-    showBtnOne: Boolean,
-    showBtnTwo: Boolean,
-    buttonText: String,
-    buttonTextTwo: String,
-    buttonName: String,
-    buttonNameTwo: String,
-    linkTo: String,
-    linkToTwo: String,
-    clickFuncOne: Function,
-    clickFuncTwo: Function
-  },
-  validations: {
-    password: { required, maxLength: maxLength(15), minLength: minLength(8) },
-    email: { required, email },
-    select: { required },
-    checkbox: { required }
-  },
-
-  data: () => ({
-    password: '',
-    email: '',
-    select: null,
-    checkbox: false
-  }),
-  computed: {
-    checkboxErrors() {
-      const errors = []
-      if (!this.$v.checkbox.$dirty) return errors
-      !this.$v.checkbox.required && errors.push('You must agree to continue!')
-      return errors
+    data() {
+        return {
+            showPass: false,
+            disabledBtn: true
+        }
     },
-    passwordErrors() {
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.maxLength &&
-        errors.push('Password must be at most 15 characters long')
-      !this.$v.password.minLength &&
-        errors.push('Password must be at least 8 characters long')
-      !this.$v.password.required && errors.push('Password is required.')
-      return errors
+    components: {
+        FormButton
     },
-    emailErrors() {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('E-mail is required')
-      return errors
+    name: 'LoginRegisterForm',
+    props: {
+        title: String,
+        showBtnOne: Boolean,
+        showBtnTwo: Boolean,
+        buttonText: String,
+        buttonTextTwo: String,
+        buttonName: String,
+        buttonNameTwo: String,
     },
-    formErrors() {
-      if (
-        this.checkboxErrors.length > 0 ||
-        this.passwordErrors.length > 0 ||
-        this.emailErrors.length > 0 ||
-        this.password === '' ||
-        this.email === '' ||
-        this.checkbox === false
-      ) {
-        return true
-      }
-
-      return false
+    computed: {
+        ...mapState(['user'])
+    },
+    methods: {
+        async login() {
+            try {
+                const res = await this.$validator.validateAll();
+                if (res) {
+                    this.$router.push('/menu/home');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        async register() {
+            try {
+                this.$router.push('/menu/home');
+            } catch (error) {
+                
+            }
+        },
+        checkboxVal() {
+            this.user.terms = !this.user.terms
+        }
     }
-  },
-  created: function() {
-    this.formErrors
-  }
 }
 </script>
 

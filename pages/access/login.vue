@@ -1,42 +1,20 @@
 <template>
-<LoginRegisterForm :title="title" 
-                   :showBtnOne="true" 
+<LoginRegisterForm :showBtnOne="true" 
                    :showBtnTwo="true" 
                    :buttonText="'Login'" 
-                   :buttonTextTwo="'Register'" 
-                   :linkTo="'/menu/home'" 
-                   :linkToTwo="'/menu/home'"
-                   :clickFuncOne="login"
-                   :clickFuncTwo="login"/>
+                   :buttonTextTwo="'Register'"/>
 </template>
 
 <script>
 import LoginRegisterForm from '~/components/LoginRegisterForm.vue'
-
+import { mapState, mapActions } from 'vuex';
+//:linkTo="'/menu/home'" 
+                   //:linkToTwo="'/menu/home'"
 export default {
   components: {
     LoginRegisterForm
   },
   layout: 'plainLayout',
-  data() {
-    return {
-      title: 'Do you alredy have an account?'
-    }
-  },
-  methods: {
-    login() {
-      //this.$v.$touch()
-      /** 
-       * needs functionallity here
-      */
-    },
-    clear() {
-      this.$v.$reset()
-      this.username = ''
-      this.email = ''
-      this.checkbox = false
-    }
-  }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <v-btn color="info" @click="clickFunc" :to="link" v-show="btnVisible" :disabled="btnDisabled" :name="btnName" router exact>{{ btnText }}</v-btn>
+    <v-btn color="info" @click="clickFunc" v-show="btnVisible" :disabled="btnDisabled" :name="btnName" router exact>{{ btnText }}</v-btn>
 </template>
 
 <script>
