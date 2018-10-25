@@ -33,6 +33,15 @@ const createStore = () => {
         mutations: {
         },
         actions: {
+            async checkIfExisist() {
+                let currUser = this.state.user;
+                try {
+                    const response = await UsersService.checkUser(currUser);
+                    return response;
+                } catch (error) {
+                    console.error(error);
+                }
+            },
             async getUser() {
                 let currUser = this.state.user;
                 try {

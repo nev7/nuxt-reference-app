@@ -6,5 +6,8 @@ export default {
   },
   postUser (user) {
       return Api().post('add', user)
+  },
+  checkUser (user) {
+    return Api().post('check', user)
   }
 }

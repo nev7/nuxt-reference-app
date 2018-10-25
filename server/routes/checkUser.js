@@ -5,7 +5,7 @@ let router = express.Router();
 let User = require('../models/user');
 
 //retrieve a user from the database
-router.post('/user', function (req, res) {
+router.post('/check', function (req, res) {
     let currUser = req.body;
 
     User.findUser(currUser, function (err, user) {
@@ -15,7 +15,7 @@ router.post('/user', function (req, res) {
         if (user) {
             res.status(200).send('User Exsists');
         } else {
-            res.status(400).send('No such user found');
+            res.status(201).send();
         }
     });
 });

@@ -33,7 +33,7 @@ export default {
         return {
             showPass: false,
             showAlert: false,
-            alertMsg: ''
+            alertMsg: '',
         }
     },
     components: {
@@ -53,7 +53,7 @@ export default {
         ...mapState(['user'])
     },
     methods: {
-        ...mapActions(['getUser', 'addUser']),
+        ...mapActions(['getUser', 'addUser', 'checkIfExisist']),
         async login() {
             try {
                 const res = await this.$validator.validateAll();
@@ -78,17 +78,17 @@ export default {
             try {
                 const validationResponse = await this.$validator.validateAll();
                 if (validationResponse) {
-                    const checkUser = await this.getUser();
-                    if (checkUser) {
+                    const checkUser = await this.checkIfExisist();
+                    if (checkUser.data.length < 1) {
+                        await this.addUser();
+                        this.$router.push('/menu/home');
+                    } else {
                         this.clear();
                         this.alertMsg = 'User already exsists please use different credentials.';
                         this.showAlert = true;
                         setTimeout(() => {
                             this.showAlert = false
                         }, 3000)
-                    } else {
-                        await this.addUser();
-                        this.$router.push('/menu/home');
                     }
                 }
             } catch (err) {

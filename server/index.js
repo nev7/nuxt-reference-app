@@ -12,6 +12,7 @@ const port = process.env.PORT || 3000
 
 let addUser = require('../server/routes/addUser');
 let getUser = require('../server/routes/getUser');
+let checkUser = require('../server/routes/checkUser');
 
 app.set('port', port)
 
@@ -29,11 +30,12 @@ mongoose.connect(`mongodb://admin:admin1234@ds227171.mlab.com:27171/registered-u
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "Database connection error"));
 db.once("open", function (callback) {
-    console.log("Database connection successful");
+  console.log("Database connection successful");
 });
 
 app.use('/', addUser);
 app.use('/', getUser);
+app.use('/', checkUser);
 
 async function start() {
   // Init Nuxt.js

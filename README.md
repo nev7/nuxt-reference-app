@@ -2,6 +2,9 @@
 
 > Medicine Reference App
 
+### Stack
+Build using Nuxt.js, VueJS, mongoDB, Express
+
 ## Build Setup
 
 ``` bash
@@ -18,5 +21,3 @@ $ yarn start
 # generate static project
 $ yarn run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
