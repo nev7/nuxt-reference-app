@@ -7,18 +7,22 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true
     }
 });
 
-let User = module.exports = mongoose.model('user', userSchema);
-
-module.exports.getUser = function (user, cb) {
-    User.find(user, cb);
-};
+let User = module.exports = mongoose.model('User', userSchema);
 
 module.exports.addUser = function (user, cb) {
     User.create(user, cb);
+};
+
+module.exports.findUser = function (user, cb) {
+    User.findOne(user, cb);
 };

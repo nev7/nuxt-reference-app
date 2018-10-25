@@ -7,8 +7,8 @@ const createStore = () => {
             loggedIn: false,
             user: {
                 email: '',
+                username: '',
                 password: '',
-                terms: false
             },
             links: [{
                 //icon: 'widgets',
@@ -31,28 +31,24 @@ const createStore = () => {
             }
         },
         mutations: {
-            CURRENT_USER: (state, data) => {
-                state.user.email = data.email;
-                state.user.password = data.password;
-            }
         },
         actions: {
-            async getUser({ commit }) {
+            async getUser() {
+                let currUser = this.state.user;
                 try {
-                    const response = await UsersService.fetchUser();
-                    commit('CURRENT_USER', response.data);
+                    const response = await UsersService.fetchUser(currUser);
                     if (response.data.length < 1) {
                         console.log('User does not exsist, please try again.');
                     }
+                    return response;
                 } catch (error) {
                     console.error(error);
                 }
             },
             async addUser() {
-                let newUser = this.user;
-
+                let currUser = this.state.user;
                 try {
-                    await UsersService.postUser(newUser);
+                    await UsersService.postUser(currUser);
                 } catch (error) {
                     console.error(error);
                 }

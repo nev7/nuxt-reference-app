@@ -2,10 +2,13 @@
 const express = require('express')
 const consola = require('consola')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
+
 
 let addUser = require('../server/routes/addUser');
 let getUser = require('../server/routes/getUser');
@@ -15,6 +18,9 @@ app.set('port', port)
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
+
+app.use(bodyParser.json());
+app.use(cors());
 
 //connect to the database
 mongoose.connect(`mongodb://admin:admin1234@ds227171.mlab.com:27171/registered-users`);
