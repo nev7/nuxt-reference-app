@@ -5,6 +5,15 @@
 ### Stack
 Build using Nuxt.js, VueJS, mongoDB, Express
 
+## Features
+
+> The application's purpose is to make it easy on medical students 
+> to find medicine related to a particular category of illnesses.
+> To achieve that the users can search through a database to find 
+> what they need. Search results can be filtered for more targeted
+> searches. Users can create an account to further customize their
+> experiense and appearance in the app.
+
 ## Build Setup
 
 ``` bash

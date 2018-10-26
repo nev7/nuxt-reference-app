@@ -1,29 +1,33 @@
 <template>
-<v-layout column justify-center align-center>
-    <v-alert :value="true" color="error" icon="warning" outline v-show="showAlert" transition="scale-transition"> {{ alertMsg }} </v-alert>
-    <v-form>
-        <h2 :text="title"></h2>
-        <v-text-field v-model="user.email" label="E-mail" type="text" name="email" placeholder="e.g jane.doe@xxxxx.com" :error-messages="errors.collect('email')" v-validate="'required|email'">
-        </v-text-field>
-        <v-text-field v-model="user.username" label="Username" type="text" name="username" :error-messages="errors.collect('username')" v-validate="'required'">
-        </v-text-field>
-        <v-text-field v-model="user.password" :counter="15" label="Password" name="password" :append-icon="showPwdIcon ? 'visibility_off' : 'visibility'" :error-messages="errors.collect('password')" v-validate="'required|max:15|min:8'" :type="showPwdIcon ? 'text' : 'password'" @click:append="showPwdIcon = !showPwdIcon">
-        </v-text-field>
-        <FormButton :clickFunc="login" :btnVisible="showBtnOne" :btnText="buttonText" :btnName="buttonName" />
-        <span>OR</span>
-        <FormButton :clickFunc="register" :btnVisible="showBtnTwo" :btnText="buttonTextTwo" :btnName="buttonNameTwo" />
-    </v-form>
+<v-layout wrap text-xs-center justify-center>
+    <v-flex xs6>
+        <v-alert :value="true" color="error" icon="warning" outline v-show="showAlert" transition="scale-transition"> {{ alertMsg }} </v-alert>
+        <v-form>
+            <h2>{{ title }}</h2>
+            <v-text-field v-model="user.email" prepend-icon="mail" label="E-mail" type="text" name="email" placeholder="e.g jane.doe@xxxxx.com" :error-messages="errors.collect('email')" v-validate="'required|email'">
+            </v-text-field>
+            <v-text-field v-model="user.username" prepend-icon="person" label="Username" type="text" name="username" :error-messages="errors.collect('username')" v-validate="'required'">
+            </v-text-field>
+            <v-text-field v-model="user.password" prepend-icon="lock" :counter="15" label="Password" name="password" :append-icon="showPwdIcon ? 'visibility_off' : 'visibility'" :error-messages="errors.collect('password')" v-validate="'required|max:15|min:8'" :type="showPwdIcon ? 'text' : 'password'" @click:append="showPwdIcon = !showPwdIcon">
+            </v-text-field>
+            <FormButton :clickFunc="login" :btnVisible="showBtnOne" :btnText="buttonText" :btnName="buttonName" :btnDisabled="isLoading" />
+            <span>OR</span>
+            <FormButton :clickFunc="register" :btnVisible="showBtnTwo" :btnText="buttonTextTwo" :btnName="buttonNameTwo" :btnDisabled="isLoading" />
+        </v-form>
+        <LoaderOverlay :isVisible="isLoading" />
+    </v-flex>
 </v-layout>
 </template>
 
 <script>
 import FormButton from '~/components/FormButton.vue';
+import LoaderOverlay from '~/components/LoaderOverlay.vue';
 import {
     mapState,
     mapActions,
     mapMutations
 } from 'vuex';
-
+//column justify-center align-center
 export default {
     data() {
         return {
@@ -33,7 +37,8 @@ export default {
         }
     },
     components: {
-        FormButton
+        FormButton,
+        LoaderOverlay
     },
     name: 'LoginRegisterForm',
     props: {
@@ -46,7 +51,7 @@ export default {
         buttonNameTwo: String,
     },
     computed: {
-        ...mapState(['user'])
+        ...mapState(['user', 'isLoading'])
     },
     methods: {
         ...mapMutations(['USER_LOGGED']),
@@ -55,9 +60,11 @@ export default {
             try {
                 const res = await this.$validator.validateAll();
                 if (res) {
+                    //this.isLoading = true;
                     const response = await this.getUser();
                     if (response) {
                         this.USER_LOGGED(true);
+                        //this.isLoading = false;
                         this.$router.push('/menu/home');
                     } else {
                         this.clearForm();
@@ -105,5 +112,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
