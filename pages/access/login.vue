@@ -8,8 +8,7 @@
 <script>
 import LoginRegisterForm from '~/components/LoginRegisterForm.vue'
 import { mapState, mapActions } from 'vuex';
-//:linkTo="'/menu/home'" 
-                   //:linkToTwo="'/menu/home'"
+
 export default {
   components: {
     LoginRegisterForm

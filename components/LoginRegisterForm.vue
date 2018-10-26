@@ -53,6 +53,7 @@ export default {
         ...mapState(['user'])
     },
     methods: {
+        ...mapMutations(['USER_LOGGED']),
         ...mapActions(['getUser', 'addUser', 'checkIfExisist']),
         async login() {
             try {
@@ -60,9 +61,10 @@ export default {
                 if (res) {
                     const response = await this.getUser();
                     if (response) {
+                        this.USER_LOGGED(true);
                         this.$router.push('/menu/home');
                     } else {
-                        this.clear();
+                        this.clearForm();
                         this.alertMsg = 'No such user found please try again.';
                         this.showAlert = true;
                         setTimeout(() => {
@@ -81,9 +83,10 @@ export default {
                     const checkUser = await this.checkIfExisist();
                     if (checkUser.data.length < 1) {
                         await this.addUser();
+                        this.USER_LOGGED(true);
                         this.$router.push('/menu/home');
                     } else {
-                        this.clear();
+                        this.clearForm();
                         this.alertMsg = 'User already exsists please use different credentials.';
                         this.showAlert = true;
                         setTimeout(() => {
@@ -95,7 +98,7 @@ export default {
                 console.error(err);
             }
         },
-        clear() {
+        clearForm() {
             this.name = ''
             this.user.email = ''
             this.user.username = ''
