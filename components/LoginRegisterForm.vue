@@ -1,5 +1,5 @@
 <template>
-<v-layout wrap text-xs-center justify-center>
+<v-layout wrap text-xs-center align-center justify-center>
     <v-flex xs6>
         <AlertCustom :aColor="alertColor" :aIcon="alertIcon" :aVisible="alertVisible" :aText="alertText" />
         <v-form>

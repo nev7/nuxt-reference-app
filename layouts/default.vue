@@ -32,7 +32,7 @@
         </v-container>
     </v-content>
     <v-footer :fixed="footer.fixed" app>
-        <span>Neven Hristov &copy; 2017</span>
+        <span>&nbsp; Neven Hristov &copy; 2018</span>
     </v-footer>
 </v-app>
 </template>
