@@ -48,32 +48,41 @@ const createStore = () => {
             async checkIfExisist() {
                 let currUser = this.state.user;
                 try {
+                    this.state.isLoading = true;
                     const response = await UsersService.checkUser(currUser);
+                    this.state.isLoading = false;
                     return response;
                 } catch (error) {
+                    this.state.isLoading = false;
                     console.error(error);
                 }
             },
             async getUser({ commit }) {
                 let currUser = this.state.user;
                 try {
+                    this.state.isLoading = true;
                     const response = await UsersService.fetchUser(currUser);
                     if (response.data.length < 1) {
                         console.log('User does not exsist, please try again.');
                     } else {
                         commit('CURRENT_USER', currUser);
                     }
+                    this.state.isLoading = false;
                     return response;
                 } catch (error) {
+                    this.state.isLoading = false;
                     console.error(error);
                 }
             },
             async addUser({ commit }) {
                 let currUser = this.state.user;
                 try {
+                    this.state.isLoading = true;
                     await UsersService.postUser(currUser);
                     commit('CURRENT_USER', currUser);
+                    this.state.isLoading = false;
                 } catch (error) {
+                    this.state.isLoading = false;
                     console.error(error);
                 }
             }

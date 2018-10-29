@@ -4,10 +4,6 @@
 
 <script>
 import LoginRegisterForm from '~/components/LoginRegisterForm.vue';
-import {
-    mapState,
-    mapActions
-} from 'vuex';
 
 export default {
     components: {

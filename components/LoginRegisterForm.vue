@@ -1,7 +1,7 @@
 <template>
 <v-layout wrap text-xs-center justify-center>
     <v-flex xs6>
-        <v-alert :value="true" color="error" icon="warning" outline v-show="showAlert" transition="scale-transition"> {{ alertMsg }} </v-alert>
+        <AlertCustom :aColor="alertColor" :aIcon="alertIcon" :aVisible="alertVisible" :aText="alertText" />
         <v-form>
             <h2>{{ title }}</h2>
             <v-text-field v-model="user.email" prepend-icon="mail" label="E-mail" type="text" name="email" placeholder="e.g jane.doe@xxxxx.com" :error-messages="errors.collect('email')" v-validate="'required|email'">
@@ -22,23 +22,29 @@
 <script>
 import FormButton from '~/components/FormButton.vue';
 import LoaderOverlay from '~/components/LoaderOverlay.vue';
+import AlertCustom from '~/components/AlertCustom.vue';
+
 import {
     mapState,
     mapActions,
     mapMutations
 } from 'vuex';
-//column justify-center align-center
+
 export default {
     data() {
         return {
             showPwdIcon: false,
-            showAlert: false,
-            alertMsg: '',
+            alertColor: '',
+            alertIcon: '',
+            alertVisible: false,
+            alertText: '',
+            alertDelay: 3000,
         }
     },
     components: {
         FormButton,
-        LoaderOverlay
+        LoaderOverlay,
+        AlertCustom
     },
     name: 'LoginRegisterForm',
     props: {
@@ -50,35 +56,51 @@ export default {
         buttonName: String,
         buttonNameTwo: String,
     },
+    watch: {
+        alertVisible(newVal, oldVal) {
+            if (this.alertVisible) {
+                setTimeout(() => {
+                    this.alertVisible = false;
+                }, this.alertDelay);
+            }
+        }
+    },
     computed: {
         ...mapState(['user', 'isLoading'])
     },
     methods: {
         ...mapMutations(['USER_LOGGED']),
         ...mapActions(['getUser', 'addUser', 'checkIfExisist']),
+        /**
+         * Validates form fields and then
+         * asynchronously checks if such user exists in the DB
+         * if it exsists it logs him/her in and redirects to home page
+         */
         async login() {
             try {
                 const res = await this.$validator.validateAll();
                 if (res) {
-                    //this.isLoading = true;
                     const response = await this.getUser();
                     if (response) {
                         this.USER_LOGGED(true);
-                        //this.isLoading = false;
                         this.$router.push('/menu/home');
                     } else {
                         this.clearForm();
-                        this.alertMsg = 'No such user found please try again.';
-                        this.showAlert = true;
-                        setTimeout(() => {
-                            this.showAlert = false
-                        }, 3000)
+                        this.alertText = 'No such user found please try again.';
+                        this.alertVisible = true;
+                        this.alertColor = 'error';
+                        this.alertIcon = 'error';
                     }
                 }
             } catch (err) {
                 console.error(err);
             }
         },
+         /**
+         * Validates form fields and then
+         * asynchronously checks if such user exists in the DB
+         * if it exsists it creates the user in the DB and redirects to home page
+         */
         async register() {
             try {
                 const validationResponse = await this.$validator.validateAll();
@@ -90,11 +112,10 @@ export default {
                         this.$router.push('/menu/home');
                     } else {
                         this.clearForm();
-                        this.alertMsg = 'User already exsists please use different credentials.';
-                        this.showAlert = true;
-                        setTimeout(() => {
-                            this.showAlert = false
-                        }, 3000)
+                        this.alertText = 'User already exsists please use different credentials.';
+                        this.alertColor = 'error';
+                        this.alertIcon = 'error';
+                        this.alertVisible = true;
                     }
                 }
             } catch (err) {
@@ -102,8 +123,7 @@ export default {
             }
         },
         clearForm() {
-            this.name = ''
-            this.user.email = ''
+            //this.user.email = ''
             this.user.username = ''
             this.user.password = ''
             this.$validator.reset()
