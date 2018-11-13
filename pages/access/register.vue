@@ -1,13 +1,17 @@
 <template>
-
+    <LoginRegisterForm :showBtnOne="false" :showBtnTwo="true" :buttonTextTwo="'Register'" :title="'Register an account to access the app.'"/>
 </template>
 
 <script>
-export default {
+import LoginRegisterForm from '~/components/LoginRegisterForm.vue';
 
+export default {
+    components: {
+        LoginRegisterForm,
+    },
+    layout: 'plainLayout',
 }
 </script>
 
 <style>
-
 </style>

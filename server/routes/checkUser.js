@@ -5,7 +5,7 @@ let router = express.Router();
 let User = require('../models/user');
 
 //retrieve a user from the database
-router.post('/check', function (req, res) {
+router.get('/check', function (req, res) {
     let currUser = req.body;
 
     User.findUser(currUser, function (err, user) {

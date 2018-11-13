@@ -11,8 +11,9 @@
             <v-text-field v-model="user.password" prepend-icon="lock" :counter="15" label="Password" name="password" :append-icon="showPwdIcon ? 'visibility_off' : 'visibility'" :error-messages="errors.collect('password')" v-validate="'required|max:15|min:8'" :type="showPwdIcon ? 'text' : 'password'" @click:append="showPwdIcon = !showPwdIcon">
             </v-text-field>
             <FormButton :clickFunc="login" :btnVisible="showBtnOne" :btnText="buttonText" :btnName="buttonName" :btnDisabled="isLoading" />
-            <span>OR</span>
+            <nuxt-link class="register-link" to="/access/register" v-show="showBtnOne">Don't have an account? Register here.</nuxt-link>
             <FormButton :clickFunc="register" :btnVisible="showBtnTwo" :btnText="buttonTextTwo" :btnName="buttonNameTwo" :btnDisabled="isLoading" />
+            <nuxt-link class="register-link" to="/access/login" v-show="showBtnTwo">Already have an account? Login here.</nuxt-link>
         </v-form>
         <LoaderOverlay :isVisible="isLoading" />
     </v-flex>
@@ -133,4 +134,7 @@ export default {
 </script>
 
 <style scoped>
+    .register-link {
+        display: block;
+    }
 </style>
