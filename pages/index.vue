@@ -10,14 +10,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 
 export default {
     layout: 'plainLayout',
     name: 'welcome',
-    computed: {
-        ...mapState(["loggedIn"])
-    }
 }
 </script>
 

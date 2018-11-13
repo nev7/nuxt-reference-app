@@ -11,7 +11,7 @@
     </v-navigation-drawer>
     <v-toolbar :clipped-left="sideNav.clipped" fixed app>
         <v-toolbar-side-icon @click="sideNav.drawer = !sideNav.drawer" />
-        <v-toolbar-title>{{ this.user.email }}</v-toolbar-title>
+        <v-toolbar-title>{{ user.username }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-menu bottom left>

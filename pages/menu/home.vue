@@ -4,7 +4,7 @@
         <div class="text-xs-center">
         </div>
         <v-card>
-            <v-card-title class="headline">Welcome Medicine Reference App</v-card-title>
+            <v-card-title class="headline">Welcome {{ user.username }} to the Medicine Reference App</v-card-title>
             <v-card-text>
                 <p>The app is tergeted towards medical personal, to facilitate their everyday work</p>
                 <hr class="my-3">
@@ -19,8 +19,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
-    components: {}
+    computed: {
+        ...mapState(["user"]),
+    }
 }
 </script>

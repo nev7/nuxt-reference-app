@@ -24,5 +24,5 @@ module.exports.addUser = function (user, cb) {
 };
 
 module.exports.findUser = function (user, cb) {
-    User.findOne(user, cb);
+    User.find(user, cb);
 };

@@ -1,13 +1,14 @@
 import Api from './Api';
 
 export default {
-  fetchUser (user) {
-    return Api().get('user', user)
+  fetchUser(user) {
+    let userQuery = `user?email=${user.email}&username=${user.username}&password=${user.password}`;
+    return Api().get(userQuery)
   },
-  checkUser (user) {
-    return Api().get('check', user)
+  checkUser(email) {
+    return Api().get('check?email=' + email)
   },
-  postUser (user) {
-      return Api().post('add', user)
+  postUser(user) {
+    return Api().post('add', user)
   }
 }

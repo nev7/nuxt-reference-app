@@ -49,7 +49,7 @@ const createStore = () => {
                 let currUser = this.state.user;
                 try {
                     this.state.isLoading = true;
-                    const response = await UsersService.checkUser(currUser);
+                    const response = await UsersService.checkUser(currUser.email);
                     this.state.isLoading = false;
                     return response;
                 } catch (error) {

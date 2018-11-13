@@ -82,12 +82,12 @@ export default {
                 const res = await this.$validator.validateAll();
                 if (res) {
                     const response = await this.getUser();
-                    if (response) {
+                    if (response.data.length > 0) {
                         this.USER_LOGGED(true);
                         this.$router.push('/menu/home');
                     } else {
                         this.clearForm();
-                        this.alertText = 'No such user found please try again.';
+                        this.alertText = 'No such user found or wrong credentials please try again.';
                         this.alertVisible = true;
                         this.alertColor = 'error';
                         this.alertIcon = 'error';
