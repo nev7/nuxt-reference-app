@@ -6,6 +6,7 @@ const createStore = () => {
         state: {
             loggedIn: false,
             isLoading: false,
+            accessToken: null,
             user: {
                 email: '',
                 username: '',
@@ -32,17 +33,20 @@ const createStore = () => {
             }
         },
         mutations: {
-            USER_LOGGED: (state, data) => {
-                state.loggedIn = data;
+            USER_LOGGED: (state, bool) => {
+                state.loggedIn = bool;
             },
-            CURRENT_USER: (state, data) => {
-                state.user = data;
+            CURRENT_USER: (state, user) => {
+                state.user = user;
             },
             CLEAR_USER: (state) => {
                 state.user.email = '';
                 state.user.username = '';
                 state.user.password = '';
             },
+            UPDATE_ACCESS_TOKEN: (state, accessToken) => {
+                state.accessToken = accessToken;
+            }
         },
         actions: {
             async checkIfExisist() {

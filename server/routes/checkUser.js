@@ -6,14 +6,14 @@ let User = require('../models/user');
 
 //retrieve a user from the database
 router.get('/check', function (req, res) {
-    User.findUser({email: req.query.email}, function (err, user) {
+    User.findUser({ email: req.query.email }, function (err, data) {
         if (err) {
             console.log(err, 'Error finding user');
         }
-        if (user) {
-            res.status(200).send('User already exsists.');
+        if (data) {
+            res.status(200).send(data);
         } else {
-            res.status(201).send();
+            res.status(501).send();
         }
     });
 });
