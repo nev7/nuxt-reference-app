@@ -87,7 +87,7 @@ export default {
                         this.$router.push('/menu/home');
                     } else {
                         this.clearForm();
-                        this.alertText = 'No such user found or wrong credentials please try again.';
+                        this.alertText = 'Wrong credentials please try again.';
                         this.alertVisible = true;
                         this.alertColor = 'error';
                         this.alertIcon = 'error';
