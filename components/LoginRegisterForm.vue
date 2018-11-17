@@ -81,16 +81,19 @@ export default {
             try {
                 const res = await this.$validator.validateAll();
                 if (res) {
-                    const response = await this.getUser();
-                    if (response.data.length > 0) {
-                        this.USER_LOGGED(true);
-                        this.$router.push('/menu/home');
-                    } else {
-                        this.clearForm();
-                        this.alertText = 'Wrong credentials please try again.';
-                        this.alertVisible = true;
-                        this.alertColor = 'error';
-                        this.alertIcon = 'error';
+                    const checkUser = await this.checkIfExisist();
+                    if (checkUser.data.length > 0) {
+                        const response = await this.getUser(checkUser.data[0]);
+                        if (response) {
+                            this.USER_LOGGED(true);
+                            this.$router.push('/menu/home');
+                        } else {
+                            this.clearForm();
+                            this.alertText = 'Wrong credentials please try again.';
+                            this.alertVisible = true;
+                            this.alertColor = 'error';
+                            this.alertIcon = 'error';
+                        }
                     }
                 }
             } catch (err) {

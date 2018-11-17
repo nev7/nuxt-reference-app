@@ -61,15 +61,19 @@ const createStore = () => {
                     console.error(error);
                 }
             },
-            async getUser({ commit }) {
-                let currUser = this.state.user;
+            async getUser({ commit }, userData) {
+                //let currUser = this.state.user;
+                let currUser = {
+                    curr: this.state.user,
+                    data: userData
+                };
                 try {
                     this.state.isLoading = true;
                     const response = await UsersService.fetchUser(currUser);
                     if (response.data.length < 1) {
-                        console.log('User does not exsist, please try again.');
+                        console.error('Can not fetch user with these credentials');
                     } else {
-                        commit('CURRENT_USER', currUser);
+                        commit('CURRENT_USER', currUser.data);
                     }
                     this.state.isLoading = false;
                     return response;

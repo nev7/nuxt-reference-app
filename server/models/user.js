@@ -17,6 +17,10 @@ let userSchema = mongoose.Schema({
     }
 });
 
+userSchema.add({
+    salt: String
+});
+
 let User = module.exports = mongoose.model('User', userSchema);
 
 module.exports.addUser = function (user, cb) {
