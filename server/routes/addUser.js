@@ -6,7 +6,8 @@ let router = express.Router();
 let User = require('../models/user');
 let saltRounds = 10;
 
-//add a new user to the database
+// First it hashes the password and then it adds the user to the DB
+// the password is stored as a hash
 router.post('/add', function (req, res) {
     let pwd = req.body.password;
 

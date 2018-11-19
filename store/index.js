@@ -20,7 +20,7 @@ const createStore = () => {
             {
                 //icon: 'book',
                 title: 'Category 1',
-                to: '/menu/cat'
+                to: '/menu/cat' //dummy page
             },
             ],
             sideNav: {
@@ -36,8 +36,10 @@ const createStore = () => {
             USER_LOGGED: (state, bool) => {
                 state.loggedIn = bool;
             },
-            CURRENT_USER: (state, user) => {
-                state.user = user;
+            CURRENT_USER: (state, data) => {
+                state.user.email = data.email;
+                state.user.username = data.username;
+                state.user. password = null;
             },
             CLEAR_USER: (state) => {
                 state.user.email = '';
@@ -49,6 +51,10 @@ const createStore = () => {
             }
         },
         actions: {
+            /**
+             * Executes the checkUser service
+             * @returns promise
+             */
             async checkIfExisist() {
                 let currUser = this.state.user;
                 try {
@@ -61,10 +67,15 @@ const createStore = () => {
                     console.error(error);
                 }
             },
+            /**
+             * Executes the fetchUser service and if successful it updates the user obj in the store
+             * @param {*} { commit }
+             * @param {*} userData the user data from the DB if it found a match 
+             * @returns promise
+             */
             async getUser({ commit }, userData) {
-                //let currUser = this.state.user;
                 let currUser = {
-                    curr: this.state.user,
+                    current: this.state.user,
                     data: userData
                 };
                 try {
@@ -72,9 +83,10 @@ const createStore = () => {
                     const response = await UsersService.fetchUser(currUser);
                     if (response.data.length < 1) {
                         console.error('Can not fetch user with these credentials');
-                    } else {
-                        commit('CURRENT_USER', currUser.data);
+                        this.state.isLoading = false;
+                        return false;
                     }
+                    commit('CURRENT_USER', currUser.current);
                     this.state.isLoading = false;
                     return response;
                 } catch (error) {
@@ -82,6 +94,10 @@ const createStore = () => {
                     console.error(error);
                 }
             },
+            /**
+             * Executes the postUser service and updates the user obj in the store
+             * @param {*} { commit }
+             */
             async addUser({ commit }) {
                 let currUser = this.state.user;
                 try {

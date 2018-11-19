@@ -94,6 +94,12 @@ export default {
                             this.alertColor = 'error';
                             this.alertIcon = 'error';
                         }
+                    } else {
+                        this.clearForm();
+                        this.alertText = 'Wrong credentials please try again.';
+                        this.alertVisible = true;
+                        this.alertColor = 'error';
+                        this.alertIcon = 'error';
                     }
                 }
             } catch (err) {

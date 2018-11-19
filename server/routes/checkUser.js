@@ -4,7 +4,7 @@ let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
 
-//retrieve a user from the database
+// Tries to find a user based on the object passed into findUser
 router.get('/check', function (req, res) {
     User.findUser({ email: req.query.email }, function (err, data) {
         if (err) {
