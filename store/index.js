@@ -46,8 +46,8 @@ const createStore = () => {
                 state.user.username = '';
                 state.user.password = '';
             },
-            UPDATE_ACCESS_TOKEN: (state, accessToken) => {
-                state.accessToken = accessToken;
+            UPDATE_ACCESS_TOKEN: (state, token) => {
+                state.accessToken = token;
             }
         },
         actions: {

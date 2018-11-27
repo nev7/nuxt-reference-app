@@ -1,5 +1,5 @@
 <template>
-    <LoginRegisterForm :showBtnOne="true" :showBtnTwo="false" :buttonText="'Login'" :title="'Login to you account.'"/>
+    <LoginRegisterForm :showBtnOne="true" :showBtnTwo="false" :buttonText="'Login'" :buttonName="'login'" :title="'Login to you account.'"/>
 </template>
 
 <script>

@@ -4,7 +4,6 @@
         <h1>Welcome to the medical reference app!</h1>
         <p>To start usingthe app please login or register if you dont have an account.</p>
         <v-btn color="info" nuxt to="/access/login">Get Started</v-btn>
-        <v-list v-show="loggedIn">Visible</v-list>
     </v-flex>
 </v-layout>
 </template>
