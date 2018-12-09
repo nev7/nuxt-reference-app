@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'LoaderOverlay',
+    name: 'ProgressBar',
     props: {
         isVisible: false,
     }

@@ -1,11 +1,13 @@
 'use strict';
 
 const utils = {
-    generateAccessToken: function(tokenLen = 2) {
+    generateAccessToken: function(tokenConcats = 1) {
         let baseToken = Math.random().toString(36).substr(2);
-        for (let index = 0; index < tokenLen; index++) {
-            return baseToken += baseToken;
+        while (tokenConcats < 0) {
+            baseToken += baseToken;
+            num--;
         }
+        return baseToken;
     }
 }
 
